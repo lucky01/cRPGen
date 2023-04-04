@@ -1,0 +1,42 @@
+diff --git a/src/serum-decode.cpp b/src/serum-decode.cpp
+index a6cc5f1..d3fa121 100644
+--- a/src/serum-decode.cpp
++++ b/src/serum-decode.cpp
+@@ -495,6 +495,11 @@ SERUM_API(void) Serum_Dispose(void)
+     Serum_free();
+ }
+ 
++SERUM_API(UINT32) Serum_GetNFrames()
++{
++    return nframes;
++}
++
+ int Identify_Frame(UINT8* frame)
+ {
+     // Usually the first frame has the ID 0, but lastfound is also initialized with 0. So we ned a helper to be able to detect frame 0 as new.
+@@ -557,6 +562,12 @@ int Identify_Frame(UINT8* frame)
+     return IDENTIFY_NO_FRAME; // we found no frame
+ }
+ 
++
++SERUM_API (int) Serum_IdentifyFrame(UINT8* frame){
++    return Identify_Frame(frame);
++}
++
++
+ bool Check_Sprites(UINT8* Frame, int quelleframe, UINT8* pquelsprites, UINT8* nspr, UINT16* pfrx, UINT16* pfry, UINT16* pspx, UINT16* pspy, UINT16* pwid, UINT16* phei)
+ {
+     UINT8 ti = 0;
+diff --git a/src/serum-decode.h b/src/serum-decode.h
+index 014555f..1afe69e 100644
+--- a/src/serum-decode.h
++++ b/src/serum-decode.h
+@@ -39,5 +39,7 @@ SERUM_API(void) Serum_DisableColorization();
+ SERUM_API(void) Serum_EnableColorization();
+ SERUM_API(const char*) Serum_GetVersion();
+ SERUM_API(const char*) Serum_GetMinorVersion();
++SERUM_API(UINT32) Serum_GetNFrames();
++SERUM_API(int) Serum_IdentifyFrame(UINT8* frame);
+ 
+ #endif
+\ No newline at end of file
